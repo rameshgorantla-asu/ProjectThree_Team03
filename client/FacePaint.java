@@ -51,10 +51,10 @@ public class FacePaint extends Applet {
 			direction = "Right";
 		}
 		calc_scaleFactors(x, y, height, width);
-		make_head(g, v.p[1]);
+		make_head(g);
 		make_eye(g, blinkl, blinkr);
 		make_pupil(g, direction, blinkl, blinkr);
-		make_eyebrows(g, v.p[4]);
+		make_eyebrows(g, v.p[1], v.p[2]);
 		make_nose(g, v.p[5]);
 		make_mouth(g, v.p[6], v.p[9], v.p[10]);
 	}
@@ -66,7 +66,7 @@ public class FacePaint extends Applet {
 		y_origin = y;
 	}
 	
-	public void make_head(Graphics g, double p){
+	public void make_head(Graphics g){
 		createCircle(g, 50, 50, head_radiusval);
 	}
 	
@@ -116,9 +116,21 @@ public class FacePaint extends Applet {
 		}
 	}
 	
-	public void make_eyebrows(Graphics g, double p4){
-		int y1 = eyebrow_y + (int)((p4 - 0.5) * 10);
-		int y2 = eyebrow_y - (int)((p4 - 0.5) * 10);
+	public void make_eyebrows(Graphics g, double p1, double p2){
+		p1 = 0;
+		int y1, y2;
+		if(p1 != 0 ){
+			y1 = eyebrow_y + (int)(p1 * 10);
+			y2 = eyebrow_y - (int)(p1 * 10);
+		}
+		else if(p2 != 0){
+			y1 = eyebrow_y - (int)(p2 * 10);
+			y2 = eyebrow_y + (int)(p2 * 10);
+		}
+		else{
+			y1 = eyebrow_y;
+			y2 = eyebrow_y;
+		}
 		createLine(g, eyebrow_left_left_x, y1, eyebrow_left_right_x, y2);
 		createLine(g, eyebrow_right_left_x, y2, eyebrow_right_right_x, y1);
 	}

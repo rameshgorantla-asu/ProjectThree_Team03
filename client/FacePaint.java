@@ -1,5 +1,5 @@
 package client;
- 
+
 import java.applet.Applet;
 import java.awt.*;
 
@@ -31,10 +31,29 @@ public class FacePaint extends Applet {
 	getVectors v = new getVectors();
 	
 	public void drawFace(Graphics g, getVectors v, int x, int y, int height, int width){
+		String direction = "Center";
+		int blinkl = 0;
+		int blinkr = 0;
+		if(v.p[11] == 1){ 
+			blinkl = 1;
+			blinkr = 1;
+		}
+		else if(v.p[12] == 1){ 
+			blinkl = 1;
+		}
+		else if(v.p[13] == 1){ 
+			blinkr = 1;
+		}
+		else if(v.p[14] == 1){
+			direction = "Left";
+		}
+		else if(v.p[15] == 1){
+			direction = "Right";
+		}
 		calc_scaleFactors(x, y, height, width);
 		make_head(g, v.p[1]);
-		make_eye(g, v.p[2], v.p[7], v.p[8]);
-		make_pupil(g, v.p[3], v.p[7]);
+		make_eye(g, blinkl, blinkr);
+		make_pupil(g, direction, blinkl, blinkr);
 		make_eyebrows(g, v.p[4]);
 		make_nose(g, v.p[5]);
 		make_mouth(g, v.p[6], v.p[9], v.p[10]);
@@ -51,19 +70,50 @@ public class FacePaint extends Applet {
 		createCircle(g, 50, 50, head_radiusval);
 	}
 	
-	public void make_eye(Graphics g, double p2, double p7, double p8){
-		int spacing = (int)((p7 - 0.5) * 10);
-		int size = (int)(((p8 - 0.5) / 2.0) * 10);
-		
-		createOval(g, eye_left_xpos - spacing, eye_ypos, eye_radiusval + size, eye_radiusval + size);
-		createOval(g, eye_right_xpos + spacing, eye_ypos, eye_radiusval + size, eye_radiusval + size);
-
+	public void make_eye(Graphics g, int bl, int br){
+		if(bl == 1 && br == 1){
+			createLine(g, eye_left_xpos + eye_radiusval, eye_ypos, eye_left_xpos - eye_radiusval, eye_ypos);
+			createLine(g, eye_right_xpos - eye_radiusval, eye_ypos, eye_right_xpos + eye_radiusval, eye_ypos);
+		}
+		else if(bl == 1){
+			createLine(g, eye_left_xpos + eye_radiusval, eye_ypos, eye_left_xpos - eye_radiusval, eye_ypos);
+			createOval(g, eye_right_xpos, eye_ypos, eye_radiusval, eye_radiusval);
+		}
+		else if(br == 1){
+			createOval(g, eye_left_xpos, eye_ypos, eye_radiusval, eye_radiusval);
+			createLine(g, eye_right_xpos - eye_radiusval, eye_ypos, eye_right_xpos + eye_radiusval, eye_ypos);
+		}
+		else{
+			createOval(g, eye_left_xpos, eye_ypos, eye_radiusval, eye_radiusval);
+			createOval(g, eye_right_xpos, eye_ypos, eye_radiusval, eye_radiusval);
+		}
 	}
 	
-	public void make_pupil(Graphics g, double p3, double p7){
-		int size = (int)(Math.max(1, p3 * 0.2) * 2);
-		fillOval(g, eye_left_xpos - (int)((p7 - 0.5) * 10), eye_ypos, size, size);
-		fillOval(g, eye_right_xpos + (int)((p7 - 0.5) * 10), eye_ypos, size, size);
+	public void make_pupil(Graphics g, String direction, int bl, int br){
+		double d = 0.5;
+		int size = 2;
+		if(direction.equals("Right")){
+			d = 0.3;
+			fillOval(g, eye_left_xpos + (int)((d - 0.5) * 10), eye_ypos, size, size);
+			fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, size, size);
+		}
+		else if(direction.equals("Left")){
+			d = 0.3;
+			fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, size, size);
+			fillOval(g, eye_right_xpos - (int)((d - 0.5) * 10), eye_ypos, size, size);
+		}
+		else{
+			if(bl == 1){
+				fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, size, size);
+			}
+			else if(br == 1){
+				fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, size, size);
+			}
+			else if(bl == 0 && br == 0){
+				fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, size, size);
+				fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, size, size);
+			}
+		}
 	}
 	
 	public void make_eyebrows(Graphics g, double p4){

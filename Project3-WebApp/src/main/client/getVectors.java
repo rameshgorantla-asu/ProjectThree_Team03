@@ -35,7 +35,6 @@ public class getVectors {
         Random r = new Random();    
         for (i = 1; i < 13; i++) {
             p[i] = r.nextDouble();
-            System.out.println(p[i]);
         }
     }
     

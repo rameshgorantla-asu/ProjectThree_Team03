@@ -1,35 +1,32 @@
 package client;
 
-import java.applet.Applet;
 import java.awt.*;
+import javax.swing.JPanel;
 
 /**
  * Class to draw a face and represent the facial expressions.
  * @SER516 Project3_Team03
  * @version 1.0
  */
-public class FacePaint extends Applet {
-	Graphics offscreenContext;
-    Image offscreenImage;
-    Color foregroundcolor = Color.black;
-    Color backgroundcolor = Color.white;
-	
-	public int head_radiusval = 30;
-	public int eye_radiusval = 5;
-	public int eye_left_xpos = 40;
-	public int eye_right_xpos = 60;
-	public int eye_ypos = 40;
-	public int eyebrow_left_left_x = 35;
-	public int eyebrow_left_right_x = 45;
-	public int eyebrow_right_left_x = 55;
-	public int eyebrow_right_right_x = 65;
-	public int eyebrow_y = 30;
-	public double pupil_radiusval = 0.2;
-	public int mouth_ypos = 65;
-	public int nose_apex_x = 50;
-	public int nose_apex_y = 45;
-	public int nose_height = 16;
-	public int nose_width = 8;
+public class FacePaint extends JPanel {
+	private static final int WIDTH = 300;
+    private static final int HEIGHT = 300;
+	private static final int head_radiusval = 30;
+	private static final int eye_radiusval = 5;
+	private static final int eye_left_xpos = 40;
+	private static final int eye_right_xpos = 60;
+	private static final int eye_ypos = 40;
+	private static final int pupil_size = 2;
+	private static final int eyebrow_left_left_x = 35;
+	private static final int eyebrow_left_right_x = 45;
+	private static final int eyebrow_right_left_x = 55;
+	private static final int eyebrow_right_right_x = 65;
+	private static final int eyebrow_y = 30;
+	private static final int mouth_ypos = 65;
+	private static final int nose_apex_x = 50;
+	private static final int nose_apex_y = 45;
+	private static final int nose_ypos = 54;
+	private static final int nose_width = 8;
 	private double x_factor, y_factor;
 	private int x_origin, y_origin;
 	
@@ -46,7 +43,7 @@ public class FacePaint extends Applet {
 	 */
 	public void drawFace(Graphics g, getVectors v, int x, int y, int height, int width){
 		String direction = "Center";
-		boolean blinkl = false;
+		boolean blinkl = true;
 		boolean blinkr = false;
 		if(v.p[8] == 1){ 
 			blinkl = true;
@@ -81,11 +78,19 @@ public class FacePaint extends Applet {
 	 * @param width Specifies the width of the window
 	 */
 	public void calc_scaleFactors(int x, int y, int height, int width){
-		x_factor = width / 100.0;
-		y_factor = height / 100.0;
+		x_factor = width / 100.0 ;
+		y_factor = height / 100.0 ;
 		x_origin = x;
 		y_origin = y;
 	}
+	
+	/**
+     * Gets the dimension of the outer panel.
+     */
+	 @Override
+	 public Dimension getPreferredSize() {
+		 return new Dimension(WIDTH, HEIGHT);
+	 }
 	
 	/**
 	 * Makes outer structure of the face
@@ -107,12 +112,13 @@ public class FacePaint extends Applet {
 			createLine(g, eye_right_xpos - eye_radiusval, eye_ypos, eye_right_xpos + eye_radiusval, eye_ypos);
 		}
 		else if(bl == true){
-			createLine(g, eye_left_xpos + eye_radiusval, eye_ypos, eye_left_xpos - eye_radiusval, eye_ypos);
-			createOval(g, eye_right_xpos, eye_ypos, eye_radiusval, eye_radiusval);
-		}
-		else if(br == true){
+			
 			createOval(g, eye_left_xpos, eye_ypos, eye_radiusval, eye_radiusval);
 			createLine(g, eye_right_xpos - eye_radiusval, eye_ypos, eye_right_xpos + eye_radiusval, eye_ypos);
+		}
+		else if(br == true){
+			createLine(g, eye_left_xpos + eye_radiusval, eye_ypos, eye_left_xpos - eye_radiusval, eye_ypos);
+			createOval(g, eye_right_xpos, eye_ypos, eye_radiusval, eye_radiusval);
 		}
 		else{
 			createOval(g, eye_left_xpos, eye_ypos, eye_radiusval, eye_radiusval);
@@ -129,27 +135,27 @@ public class FacePaint extends Applet {
 	 */
 	public void make_pupil(Graphics g, String direction, boolean bl, boolean br){
 		double d = 0.5;
-		int size = 2;
 		if(direction.equals("Right")){
 			d = 0.3;
-			fillOval(g, eye_left_xpos + (int)((d - 0.5) * 10), eye_ypos, size, size);
-			fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, size, size);
+			fillOval(g, eye_left_xpos + (int)((d - 0.5) * 10), eye_ypos, pupil_size, pupil_size);
+			fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, pupil_size, pupil_size);
 		}
 		else if(direction.equals("Left")){
 			d = 0.3;
-			fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, size, size);
-			fillOval(g, eye_right_xpos - (int)((d - 0.5) * 10), eye_ypos, size, size);
+			fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, pupil_size, pupil_size);
+			fillOval(g, eye_right_xpos - (int)((d - 0.5) * 10), eye_ypos, pupil_size, pupil_size);
 		}
 		else{
 			if(bl == true){
-				fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, size, size);
+				fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, pupil_size, pupil_size);
 			}
 			else if(br == true){
-				fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, size, size);
+				fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, pupil_size, pupil_size);
+
 			}
-			else if(bl == true && br == true){
-				fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, size, size);
-				fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, size, size);
+			else if(bl == false && br == false){
+				fillOval(g, eye_left_xpos - (int)((d - 0.5) * 10), eye_ypos, pupil_size, pupil_size);
+				fillOval(g, eye_right_xpos + (int)((d - 0.5) * 10), eye_ypos, pupil_size, pupil_size);
 			}
 		}
 	}
@@ -185,10 +191,9 @@ public class FacePaint extends Applet {
 	 * @param g Is a Graphics Object
 	 */
 	public void make_nose(Graphics g){
-		int y = 54;
-		createLine(g, nose_apex_x, nose_apex_y, nose_apex_x - (nose_width / 2), y);
-		createLine(g, nose_apex_x - (nose_width / 2), y, nose_apex_x + (nose_width / 2), y);
-		createLine(g, nose_apex_x + (nose_width / 2), y, nose_apex_x, nose_apex_y);
+		createLine(g, nose_apex_x, nose_apex_y, nose_apex_x - (nose_width / 2), nose_ypos);
+		createLine(g, nose_apex_x - (nose_width / 2), nose_ypos, nose_apex_x + (nose_width / 2), nose_ypos);
+		createLine(g, nose_apex_x + (nose_width / 2), nose_ypos, nose_apex_x, nose_apex_y);
 	}
 	
 	/**
@@ -347,19 +352,10 @@ public class FacePaint extends Applet {
 	}
 	
 	/**
-	 * Initializes the applet.
-	 */
-	public void init(){
-		offscreenImage = this.createImage(getSize().width, getSize().height);
-        offscreenContext = offscreenImage.getGraphics();
-        backgroundcolor = getBackground();
-	}
-	
-	/**
 	 * Paints the desired face.
 	 */
-	public void paint(Graphics g){
-		drawFace(g, v, 0, 0, getSize().height, getSize().width);
+	public void paintComponent(Graphics g){
+		drawFace(g, v, 0, 0, getHeight(), getWidth());
 	}
 	
 }

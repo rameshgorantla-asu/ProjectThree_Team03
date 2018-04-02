@@ -2,6 +2,8 @@ package client;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.JPanel;
@@ -36,6 +38,7 @@ public class ClientUi {
 			public void run() {
 				try {
 					ClientUi window = new ClientUi();
+					
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -87,6 +90,8 @@ public class ClientUi {
 		graphPanel.setBounds(325, 28, 368, 313);
 		expressivePanel.add(graphPanel);
 		graphPanel.setLayout(null);
+		
+		FacePaint f = new FacePaint();
 		
 		JLabel blinkLabel = new JLabel("Blink\r\n");
 		blinkLabel.setForeground(Color.WHITE);
@@ -263,6 +268,25 @@ public class ClientUi {
 		
 		JMenuItem serverConsole = new JMenuItem("Server");
 		mntmApplication.add(serverConsole);
+		
+		Thread t = new Thread(new Runnable() { 
+            @Override
+            public void run() {
+                while(true)
+                {
+                    
+                    facePanel.add(f,BorderLayout.CENTER);
+                    facePanel.repaint();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }       
+            }
+
+        });
+        t.start();
 		
 		JMenuItem serverConnect = new JMenuItem("Connect to Server");
 		serverConnect.addActionListener(new ActionListener() {

@@ -85,7 +85,7 @@ public class ServerGui extends Thread implements ActionListener{
 		frame.getContentPane().setLayout(null);
 		try
 	    {
-	    	JLabel panel = new JLabel(new ImageIcon(ImageIO.read(new File("images\\bg.jpg"))));
+	    	JLabel panel = new JLabel(new ImageIcon(ImageIO.read(new File("bg.jpg"))));
 	    	panel.setEnabled(true);
 	    	
 	    	frame.setContentPane(panel);

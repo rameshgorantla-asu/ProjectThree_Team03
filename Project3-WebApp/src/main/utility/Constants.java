@@ -16,6 +16,7 @@ public class Constants {
     public static final Color FRAMECOLOR = new Color(207, 220, 239);
     public static final Color CONSOLECOLOR = new Color(211, 211, 211);
     public static final Color MAINPANELCOLOR = new Color(220, 220, 220);
+    public static final Color GRAPHBG = new Color(238, 238, 238);
     public static final Font COURIERFONT = new Font("Courier New", Font.PLAIN, 18);
     public static final String HOSTNAME = "localhost";
 

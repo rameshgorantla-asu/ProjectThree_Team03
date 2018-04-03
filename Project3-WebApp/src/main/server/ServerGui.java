@@ -23,6 +23,7 @@ import javax.swing.SpinnerListModel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
@@ -31,15 +32,19 @@ import javax.swing.JScrollPane;
 
 public class ServerGui extends Thread implements ActionListener{
 
-	private JFrame frame=null;
-	private JTextField textField=null;
-	private JSpinner spinnerEmoStateInterval,spinnerUpperFace,spinnerLowerFace,spinnerAffective=null;
-	private JCheckBox chckbxAutoReset,chckbxEyeAutoReset=null;
-	private JTextArea txtAreaEmoLogs=null;
-	private JButton btnSend,btnClearLogs=null;
-	private JComboBox comboUpperFace,comboLowerFace,comboEye,comboAffective=null;
-	private JRadioButton rdbtnActive=null;
-	Thread th=null;
+	private JFrame frame;
+	private JTextField textField;
+	private JSpinner spinnerEmoStateInterval,spinnerUpperFace,spinnerLowerFace,spinnerAffective;
+	private JCheckBox chckbxAutoReset,chckbxEyeAutoReset;
+	private JTextArea txtAreaEmoLogs;
+	private JButton btnSend,btnClearLogs;
+	private JComboBox comboUpperFace,comboLowerFace,comboEye,comboAffective;
+	private JRadioButton rdbtnActive;
+	private JMenuBar menuBar;
+	private JMenu mnNewMenu;
+	private JMenuItem mntmAbout;
+	JMenuItem mntmQuit;
+	Thread inputThread;
 	boolean running=false;
 	double  emoIntervalSelected= 1;
 	
@@ -64,6 +69,14 @@ public class ServerGui extends Thread implements ActionListener{
 	 * Create the application.
 	 */
 	public ServerGui() {
+		
+		try
+		{
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+	    } 
+		catch(Exception e) 
+		{ }
+		
 		initialize();
 	}
 
@@ -72,23 +85,15 @@ public class ServerGui extends Thread implements ActionListener{
 	 */
 	private void initialize() {
 		
-		try{
-	           UIManager.setLookAndFeel(
-	                   "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-	       } 
-		catch(Exception e) 
-		{  }
-		
 		frame = new JFrame("Server");
 		frame.setBounds(100, 100, 531, 887);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		try
 	    {
-	    	JLabel panel = new JLabel(new ImageIcon(ImageIO.read(new File("bg.jpg"))));
-	    	panel.setEnabled(true);
-	    	
-	    	frame.setContentPane(panel);
+	    	JLabel imagePanel = new JLabel(new ImageIcon(ImageIO.read(new File("bg.jpg"))));
+	    	imagePanel.setEnabled(true);
+	    	frame.setContentPane(imagePanel);
 	    }
 	    catch(Exception e)
 	    {
@@ -279,23 +284,36 @@ public class ServerGui extends Thread implements ActionListener{
 		spinnerAffective.setModel(new SpinnerListModel(new String[] {"0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0"}));
 		panel_Detection.add(spinnerAffective);
 		
-		//JScrollPane scroll = new JScrollPane(txtAreaEmoLogs);
-		//scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		//panel_Detection.add(scroll);
-		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("File");
+		mnNewMenu = new JMenu("File");
 		menuBar.add(mnNewMenu);
+		mnNewMenu.addActionListener(this);
 		
-		JMenuItem mntmHello = new JMenuItem("About");
-		mnNewMenu.add(mntmHello);
-		
-		JMenuItem mntmQuit = new JMenuItem("Quit");
-		mnNewMenu.add(mntmQuit);
-		
+		mntmAbout = new JMenuItem("About");
+		mnNewMenu.add(mntmAbout);
+		mntmAbout.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				JOptionPane.showMessageDialog(null, "Emoticon Application. Version 1.0");
 			}
+		});
+		
+		mntmQuit = new JMenuItem("Quit");
+		mnNewMenu.add(mntmQuit);
+		mntmQuit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				System.exit(MAX_PRIORITY);
+			}
+		});
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -303,9 +321,11 @@ public class ServerGui extends Thread implements ActionListener{
 		running = false;
 		String event = e.getActionCommand();
 		if (event.equalsIgnoreCase("Clear Logs"))
-		{
-			System.out.println("Clear Log pressed");
-			txtAreaEmoLogs.setText("");
+		{		
+			    running = false;
+				System.out.println("Clear Log pressed");
+				txtAreaEmoLogs.setText("");
+				running =true;
 		}
 		else if(event.equalsIgnoreCase("Send"))
 		{
@@ -318,8 +338,8 @@ public class ServerGui extends Thread implements ActionListener{
 				spinnerEmoStateInterval.setEnabled(false);
 				chckbxAutoReset.setEnabled(false);
 				running = true;
-				th= new Thread(this);
-				th.start();				
+				inputThread=new Thread(this);
+				inputThread.start();
 			}
 			else
 			{
@@ -333,8 +353,7 @@ public class ServerGui extends Thread implements ActionListener{
 			btnSend.setText("Send");
 			spinnerEmoStateInterval.setEnabled(true);
 			chckbxAutoReset.setEnabled(true);
-			th.suspend();
-		
+			inputThread.stop();
 		}
 	}
 	

@@ -18,14 +18,14 @@ import javax.swing.*;
  */
 public class DisplayGraph extends JPanel {
     private static final long serialVersionUID = 1L;
-    private static final int MAX_VALUE = 100;
+    private static final int MAX_VALUE = 3;
     private static final int WIDTH = 255;
     private static final int HEIGHT = 20;
     private static final int BORDER_GAP = 0;
     private static final Stroke GRAPH_STROKE = new BasicStroke(1f);
     private static final int GRAPH_POINT_WIDTH = 1;
     private static final int MAX_LIST_SIZE = 20;
-    private List<Float> list1 = new ArrayList<Float>();
+    private List<Double> list1 = new ArrayList<Double>();
    /* private List<Integer> list2 = new ArrayList<Integer>();
     private List<Integer> list3 = new ArrayList<Integer>();
     private List<Integer> list4 = new ArrayList<Integer>();
@@ -45,7 +45,7 @@ public class DisplayGraph extends JPanel {
      * Splits the values from the received array based on their indices and stores them in separate arrays.
      * @param rvalues contains values received from server after a certain time interval.
      */
-    public void addValues(List<Float> rvalues){
+    public void addValues(List<Double> rvalues){
       if(rvalues.size()==1){
         list1.add(rvalues.get(0));
       }
@@ -97,7 +97,8 @@ public class DisplayGraph extends JPanel {
 
        //creates x and y axes scales.
        double xScale = ((double) getWidth() - 2 * BORDER_GAP) / (list1.size() + MAX_LIST_SIZE - 1);
-       double yScale = ((double) getHeight() - 2 * BORDER_GAP) / (MAX_VALUE - 1);
+       //double yScale = ((double) getHeight() - 2 * BORDER_GAP) / (MAX_VALUE - 1);
+       double yScale = (double) getHeight() - 2;
        
        //calls to functions to create coordinate values from the provided lists.
        createPoints(graphPoints1, list1, xScale, yScale);
@@ -143,10 +144,10 @@ public class DisplayGraph extends JPanel {
      * @param xScale contains the horizontal dimension of the graph
      * @param yScale contains the vertical dimension of the graph
      */
-    public void createPoints(List<Point> p, List<Float> l, double xScale, double yScale){
+    public void createPoints(List<Point> p, List<Double> l, double xScale, double yScale){
       for (int i = 0; i < l.size(); i++) {
             int x1 = (int) (i * xScale + BORDER_GAP);
-            int y1 = (int) ((MAX_VALUE - l.get(i)) * yScale + BORDER_GAP);
+            int y1 = (int) ((1- l.get(i)) * yScale  + BORDER_GAP);
             p.add(new Point(x1, y1));
          }
     }

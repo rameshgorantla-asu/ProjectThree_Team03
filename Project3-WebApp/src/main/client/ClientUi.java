@@ -37,7 +37,7 @@ public class ClientUi {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String args[]) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -359,11 +359,11 @@ public class ClientUi {
                     
                     facePanel.add(f,BorderLayout.CENTER);
                     facePanel.repaint();
-                    List<Float> al = new ArrayList<Float>(); 
+                    List<Double> al = new ArrayList<Double>(); 
                     Random rand = new Random();
-                    float pick;
+                    double pick;
                     for (int j = 0; j < 1; j++) {
-                        pick = rand.nextInt(100);
+                        pick = rand.nextDouble();
                         al.add(pick);
                     }
                     g.addValues(al);
@@ -378,6 +378,7 @@ public class ClientUi {
                     g9.addValues(al);
                     g10.addValues(al);
                     g11.addValues(al);
+                    System.out.println(al);
                     
                     blinkGraph.add(g,BorderLayout.CENTER);
                     blinkGraph.repaint();

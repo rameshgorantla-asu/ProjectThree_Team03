@@ -111,7 +111,7 @@ public class ClientUi {
 		
                 JPanel blinkGraph = new JPanel();
 		blinkGraph.setBounds(90, 11, 260, 18);
-		blinkGraph.setBackground(ClientConstants.GRAPHBG);
+		blinkGraph.setBackground(new Color(238, 238, 238));
 		blinkGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(blinkGraph);
                 
@@ -125,7 +125,7 @@ public class ClientUi {
                 
                 JPanel rgtWinkGraph = new JPanel();
 		rgtWinkGraph.setBounds(90, 36, 260, 18);
-		rgtWinkGraph.setBackground(ClientConstants.GRAPHBG);
+		rgtWinkGraph.setBackground(new Color(238, 238, 238));
 		rgtWinkGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(rgtWinkGraph);
 		
@@ -139,7 +139,7 @@ public class ClientUi {
                 
                 JPanel lftWinkGraph = new JPanel();
 		lftWinkGraph.setBounds(90, 65, 260, 18);
-		lftWinkGraph.setBackground(ClientConstants.GRAPHBG);
+		lftWinkGraph.setBackground(new Color(238, 238, 238));
 		lftWinkGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(lftWinkGraph);
 		
@@ -153,7 +153,7 @@ public class ClientUi {
 		
                 JPanel lookGraph = new JPanel();
 		lookGraph.setBounds(90, 90, 260, 18);
-		lookGraph.setBackground(ClientConstants.GRAPHBG);
+		lookGraph.setBackground(new Color(238, 238, 238));
 		lookGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(lookGraph);
                 
@@ -167,7 +167,7 @@ public class ClientUi {
 		
                 JPanel furrowGraph = new JPanel();
 		furrowGraph.setBounds(90, 115, 260, 18);
-		furrowGraph.setBackground(ClientConstants.GRAPHBG);
+		furrowGraph.setBackground(new Color(238, 238, 238));
 		furrowGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(furrowGraph);
                 
@@ -181,7 +181,7 @@ public class ClientUi {
                 
                 JPanel raiseGraph = new JPanel();
 		raiseGraph.setBounds(90, 140, 260, 18);
-		raiseGraph.setBackground(ClientConstants.GRAPHBG);
+		raiseGraph.setBackground(new Color(238, 238, 238));
 		raiseGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(raiseGraph);
 		
@@ -194,7 +194,7 @@ public class ClientUi {
                 
                 JPanel smileGraph = new JPanel();
 		smileGraph.setBounds(90, 165, 260, 18);
-		smileGraph.setBackground(ClientConstants.GRAPHBG);
+		smileGraph.setBackground(new Color(238, 238, 238));
 		smileGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(smileGraph);
 		
@@ -207,7 +207,7 @@ public class ClientUi {
                 
                 JPanel clenchGraph = new JPanel();
 		clenchGraph.setBounds(90, 190, 260, 18);
-		clenchGraph.setBackground(ClientConstants.GRAPHBG);
+		clenchGraph.setBackground(new Color(238, 238, 238));
 		clenchGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(clenchGraph);
 		
@@ -220,7 +220,7 @@ public class ClientUi {
                 
                 JPanel lftSmirkGraph = new JPanel();
 		lftSmirkGraph.setBounds(90, 215, 260, 18);
-		lftSmirkGraph.setBackground(ClientConstants.GRAPHBG);
+		lftSmirkGraph.setBackground(new Color(238, 238, 238));
 		lftSmirkGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(lftSmirkGraph);
 		
@@ -233,7 +233,7 @@ public class ClientUi {
                 
                 JPanel rgtSmirkGraph = new JPanel();
 		rgtSmirkGraph.setBounds(90, 245, 260, 18);
-		rgtSmirkGraph.setBackground(ClientConstants.GRAPHBG);
+		rgtSmirkGraph.setBackground(new Color(238, 238, 238));
 		rgtSmirkGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(rgtSmirkGraph);
 		
@@ -246,7 +246,7 @@ public class ClientUi {
                 
                 JPanel laughGraph = new JPanel();
 		laughGraph.setBounds(90, 276, 260, 18);
-		laughGraph.setBackground(ClientConstants.GRAPHBG);
+		laughGraph.setBackground(new Color(238, 238, 238));
 		laughGraph.setBorder(BorderFactory.createLineBorder(Color.black));
                 graphPanel.add(laughGraph);
 		

@@ -13,7 +13,7 @@ import java.util.List;
 import javax.swing.*;
 
 /**
- * @SER516 Project2_Team03
+ * @SER516 Project3_Team03
  * @Version 1.0
  */
 public class DisplayGraph extends JPanel {
@@ -24,7 +24,7 @@ public class DisplayGraph extends JPanel {
     private static final int BORDER_GAP = 0;
     private static final Stroke GRAPH_STROKE = new BasicStroke(1f);
     private static final int GRAPH_POINT_WIDTH = 1;
-    private static final int MAX_LIST_SIZE = 70;
+    private static final int MAX_LIST_SIZE = 20;
     private List<Float> list1 = new ArrayList<Float>();
    /* private List<Integer> list2 = new ArrayList<Integer>();
     private List<Integer> list3 = new ArrayList<Integer>();
@@ -96,7 +96,7 @@ public class DisplayGraph extends JPanel {
        g6.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);*/
 
        //creates x and y axes scales.
-       double xScale = ((double) getWidth() - 2 * BORDER_GAP) / (MAX_LIST_SIZE - 1);
+       double xScale = ((double) getWidth() - 2 * BORDER_GAP) / (list1.size() + MAX_LIST_SIZE - 1);
        double yScale = ((double) getHeight() - 2 * BORDER_GAP) / (MAX_VALUE - 1);
        
        //calls to functions to create coordinate values from the provided lists.

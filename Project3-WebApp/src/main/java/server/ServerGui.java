@@ -296,7 +296,6 @@ public class ServerGui extends Thread implements ActionListener{
 		mnNewMenu.add(mntmAbout);
 		mntmAbout.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				JOptionPane.showMessageDialog(null, "Emoticon Application. Version 1.0");
@@ -307,7 +306,6 @@ public class ServerGui extends Thread implements ActionListener{
 		mnNewMenu.add(mntmQuit);
 		mntmQuit.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
@@ -316,7 +314,6 @@ public class ServerGui extends Thread implements ActionListener{
 		});
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e)
 	{	
 		running = false;
@@ -334,7 +331,7 @@ public class ServerGui extends Thread implements ActionListener{
 			{
 				System.out.println("Send pressed with check box selected");
 				btnSend.setText("Stop");
-				emoIntervalSelected = (double) spinnerEmoStateInterval.getValue();
+				emoIntervalSelected = (Double) spinnerEmoStateInterval.getValue();
 				System.out.println("EmoInterval: " + emoIntervalSelected );
 				spinnerEmoStateInterval.setEnabled(false);
 				chckbxAutoReset.setEnabled(false);
@@ -373,23 +370,75 @@ public class ServerGui extends Thread implements ActionListener{
 	
 	public void getInputs()
 	{	
+		FaceExpressionData faceExpressionData = new FaceExpressionData();
+		FaceAffectiveData faceAffectiveData = new FaceAffectiveData();
+		
 		String upperFace = (String) comboUpperFace.getSelectedItem();
+		Double upperFaceValue =  Double.parseDouble((String) spinnerUpperFace.getValue());
+	
 		System.out.println("UpperFace: " + upperFace);
-		String upperFaceValue =  (String) spinnerUpperFace.getValue();
 		System.out.println("Upperface value: "+upperFaceValue);
+		
+		switch(upperFace) {
+		case "Raise Brow": faceExpressionData.setRaiseBrow(upperFaceValue); break;
+		case "Furrow Brow": faceExpressionData.setFurrowBrow(upperFaceValue); break;
+		}
+		
+		
 		String lowerFace = (String) comboLowerFace.getSelectedItem();
+		Double lowerFaceValue = Double.parseDouble((String) spinnerLowerFace.getValue());
+		
 		System.out.println("LowerFace: " + lowerFace );
-		String lowerFaceValue = (String) spinnerLowerFace.getValue();
 		System.out.println("LowerFace Value: "+ lowerFaceValue);
-		String eye = (String) comboEye.getSelectedItem();
-		System.out.println("Eye :"+ eye);
+		
+		switch(lowerFace) {
+		case "Smile": faceExpressionData.setSmile(lowerFaceValue); break;
+		case "Clench": faceExpressionData.setClench(lowerFaceValue); break;
+		case "Smirk Left": faceExpressionData.setSmirkLeft(lowerFaceValue); break;
+		case "Smirk Right": faceExpressionData.setSmirkRight(lowerFaceValue); break;
+		case "Laugh": faceExpressionData.setLaugh(lowerFaceValue); break;
+		}
+			
 		boolean eyeActive =  rdbtnActive.isSelected();
+		
 		System.out.println("Eye Active: "+eyeActive);
+		
+		if(eyeActive) {
+			String eye = (String) comboEye.getSelectedItem();
+			System.out.println("Eye :"+ eye);
+			
+			switch(eye) {
+			case "Blink": faceExpressionData.setBlink(1.0); break;
+			case "Wink Left": faceExpressionData.setWinkLeft(1.0); break;
+			case "Wink Right": faceExpressionData.setWinkRight(1.0); break;
+			case "Look Left": faceExpressionData.setLookLeft(1.0); break;
+			case "Look Right": faceExpressionData.setLookRight(1.0); break;
+			}
+		}
+	
+		
 		boolean eyeAutoReset = chckbxEyeAutoReset.isSelected();
 		System.out.println("Eye Auto Reset :"+ eyeAutoReset);
+		
+		if(eyeAutoReset) {
+			faceExpressionData.setEyeReset(true);
+		}
+		
 		String affective = (String) comboAffective.getSelectedItem();
+		Double affectiveValue = Double.parseDouble((String) spinnerAffective.getValue());
+		
 		System.out.println("Affective: "+affective);
-		String affectiveValue = (String) spinnerAffective.getValue();
 		System.out.println("Affective Value: "+affectiveValue);
+		
+		switch(affective) {
+		case "Meditation": faceAffectiveData.setMeditation(affectiveValue); break;
+		case "Engagement Boredom": faceAffectiveData.setEngagementBoredom(affectiveValue); break;
+		case "Excitement ShortTerm": faceAffectiveData.setExcitementShortTerm(affectiveValue); break;
+		case "Frustation": faceAffectiveData.setFrustation(affectiveValue); break;
+		case "Excitement LongTerm": faceAffectiveData.setExcitementLongTerm(affectiveValue); break;
+		}
+		
+		System.out.println(faceAffectiveData.toString());
+		
 	}
 }

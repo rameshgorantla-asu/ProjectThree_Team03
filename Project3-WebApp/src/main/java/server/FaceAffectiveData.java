@@ -1,10 +1,12 @@
 package server;
 
 public class FaceAffectiveData {
-	Double meditation;
-	Double engagementBoredom;
-	Double excitementShortTerm;
-	Double excitementLongTerm;
+	
+	Double meditation = 0.0;
+	Double engagementBoredom = 0.0;
+	Double excitementShortTerm = 0.0;
+	Double frustation = 0.0;
+	Double excitementLongTerm = 0.0;
 	
 	public Double getMeditation() {
 		return meditation;
@@ -23,6 +25,12 @@ public class FaceAffectiveData {
 	}
 	public void setExcitementShortTerm(Double excitementShortTerm) {
 		this.excitementShortTerm = excitementShortTerm;
+	}
+	public Double getFrustation() {
+		return frustation;
+	}
+	public void setFrustation(Double frustation) {
+		this.frustation = frustation;
 	}
 	public Double getExcitementLongTerm() {
 		return excitementLongTerm;

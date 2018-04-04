@@ -95,8 +95,23 @@ public class FaceExpressionData {
 		this.eyeReset = eyeReset;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "FaceExpressionData{" +
+				"raiseBrow=" + raiseBrow +
+				", furrowBrow=" + furrowBrow +
+				", smile=" + smile +
+				", clench=" + clench +
+				", smirkLeft=" + smirkLeft +
+				", smirkRight=" + smirkRight +
+				", laugh=" + laugh +
+				", blink=" + blink +
+				", winkLeft=" + winkLeft +
+				", winkRight=" + winkRight +
+				", lookLeft=" + lookLeft +
+				", lookRight=" + lookRight +
+				", eyeReset=" + eyeReset +
+				'}';
+	}
 
-	
-	
 }

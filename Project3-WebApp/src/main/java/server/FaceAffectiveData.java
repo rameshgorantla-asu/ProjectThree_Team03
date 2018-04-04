@@ -37,6 +37,16 @@ public class FaceAffectiveData {
 	}
 	public void setExcitementLongTerm(Double excitementLongTerm) {
 		this.excitementLongTerm = excitementLongTerm;
+	} 
+	
+	public String toString() {
+		return "FaceAffectiveData{" +
+				"meditation=" + meditation +
+				", engagementBoredom=" + engagementBoredom +
+				", excitementShortTerm=" + excitementShortTerm +
+				", frustation=" + frustation +
+				", excitementLongTerm=" + excitementLongTerm +
+				'}';
 	}
 	
 	

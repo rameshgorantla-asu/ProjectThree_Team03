@@ -34,7 +34,7 @@ import javax.swing.JScrollPane;
 public class ServerGui extends Thread implements ActionListener{
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField timeElapsedTextbox;
 	private JSpinner spinnerEmoStateInterval,spinnerUpperFace,spinnerLowerFace,spinnerAffective;
 	private JCheckBox chckbxAutoReset,chckbxEyeAutoReset;
 	private JTextArea txtAreaEmoLogs;
@@ -48,6 +48,7 @@ public class ServerGui extends Thread implements ActionListener{
 	Thread inputThread;
 	boolean running=false;
 	double  emoIntervalSelected= 1;
+	Double timeElapsed = 0.0;
 	
 
 	/**
@@ -165,12 +166,12 @@ public class ServerGui extends Thread implements ActionListener{
 		sl_panel_Detection.putConstraint(SpringLayout.EAST, lblTime, 70, SpringLayout.WEST, panel_Detection);
 		panel_Detection.add(lblTime);
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		sl_panel_Detection.putConstraint(SpringLayout.NORTH, textField, 44, SpringLayout.NORTH, panel_Detection);
-		sl_panel_Detection.putConstraint(SpringLayout.WEST, textField, 74, SpringLayout.WEST, panel_Detection);
-		panel_Detection.add(textField);
-		textField.setColumns(10);
+		timeElapsedTextbox = new JTextField();
+		timeElapsedTextbox.setEditable(false);
+		sl_panel_Detection.putConstraint(SpringLayout.NORTH, timeElapsedTextbox, 44, SpringLayout.NORTH, panel_Detection);
+		sl_panel_Detection.putConstraint(SpringLayout.WEST, timeElapsedTextbox, 74, SpringLayout.WEST, panel_Detection);
+		panel_Detection.add(timeElapsedTextbox);
+		timeElapsedTextbox.setColumns(10);
 		
 		JLabel lblSeconds = new JLabel("Seconds");
 		sl_panel_Detection.putConstraint(SpringLayout.NORTH, lblSeconds, 47, SpringLayout.NORTH, panel_Detection);
@@ -233,7 +234,7 @@ public class ServerGui extends Thread implements ActionListener{
 		rdbtnActive = new JRadioButton("Active");
 		sl_panel_Detection.putConstraint(SpringLayout.NORTH, rdbtnActive, -1, SpringLayout.NORTH, comboEye);
 		sl_panel_Detection.putConstraint(SpringLayout.WEST, rdbtnActive, 120, SpringLayout.WEST, panel_Detection);
-		sl_panel_Detection.putConstraint(SpringLayout.EAST, rdbtnActive, 0, SpringLayout.EAST, textField);
+		sl_panel_Detection.putConstraint(SpringLayout.EAST, rdbtnActive, 0, SpringLayout.EAST, timeElapsedTextbox);
 		panel_Detection.add(rdbtnActive);
 		
 		chckbxEyeAutoReset = new JCheckBox("Auto Reset");
@@ -359,25 +360,30 @@ public class ServerGui extends Thread implements ActionListener{
 	{
 		while(running)
 		{
-			getInputs();
+			FaceData faceData = getInputs();
+			// convert faceData to JSON and send to client
 			try 
 			{
 				Thread.sleep((long) (emoIntervalSelected*1000));
+				timeElapsed += emoIntervalSelected;
+				timeElapsedTextbox.setText(timeElapsed.toString());
+				
 			}
 			catch(Exception ex){};
 		}
 	}
 	
-	public void getInputs()
+	public FaceData getInputs()
 	{	
 		FaceExpressionData faceExpressionData = new FaceExpressionData();
 		FaceAffectiveData faceAffectiveData = new FaceAffectiveData();
+		FaceData faceData = new FaceData();
 		
 		String upperFace = (String) comboUpperFace.getSelectedItem();
 		Double upperFaceValue =  Double.parseDouble((String) spinnerUpperFace.getValue());
 	
-		System.out.println("UpperFace: " + upperFace);
-		System.out.println("Upperface value: "+upperFaceValue);
+		//System.out.println("UpperFace: " + upperFace);
+		//System.out.println("Upperface value: "+upperFaceValue);
 		
 		switch(upperFace) {
 		case "Raise Brow": faceExpressionData.setRaiseBrow(upperFaceValue); break;
@@ -388,8 +394,8 @@ public class ServerGui extends Thread implements ActionListener{
 		String lowerFace = (String) comboLowerFace.getSelectedItem();
 		Double lowerFaceValue = Double.parseDouble((String) spinnerLowerFace.getValue());
 		
-		System.out.println("LowerFace: " + lowerFace );
-		System.out.println("LowerFace Value: "+ lowerFaceValue);
+		//System.out.println("LowerFace: " + lowerFace );
+		//System.out.println("LowerFace Value: "+ lowerFaceValue);
 		
 		switch(lowerFace) {
 		case "Smile": faceExpressionData.setSmile(lowerFaceValue); break;
@@ -401,11 +407,11 @@ public class ServerGui extends Thread implements ActionListener{
 			
 		boolean eyeActive =  rdbtnActive.isSelected();
 		
-		System.out.println("Eye Active: "+eyeActive);
+		//System.out.println("Eye Active: "+eyeActive);
 		
 		if(eyeActive) {
 			String eye = (String) comboEye.getSelectedItem();
-			System.out.println("Eye :"+ eye);
+			//System.out.println("Eye :"+ eye);
 			
 			switch(eye) {
 			case "Blink": faceExpressionData.setBlink(1.0); break;
@@ -418,7 +424,7 @@ public class ServerGui extends Thread implements ActionListener{
 	
 		
 		boolean eyeAutoReset = chckbxEyeAutoReset.isSelected();
-		System.out.println("Eye Auto Reset :"+ eyeAutoReset);
+		//System.out.println("Eye Auto Reset :"+ eyeAutoReset);
 		
 		if(eyeAutoReset) {
 			faceExpressionData.setEyeReset(true);
@@ -427,18 +433,24 @@ public class ServerGui extends Thread implements ActionListener{
 		String affective = (String) comboAffective.getSelectedItem();
 		Double affectiveValue = Double.parseDouble((String) spinnerAffective.getValue());
 		
-		System.out.println("Affective: "+affective);
-		System.out.println("Affective Value: "+affectiveValue);
+		//System.out.println("Affective: "+affective);
+		//System.out.println("Affective Value: "+affectiveValue);
 		
 		switch(affective) {
 		case "Meditation": faceAffectiveData.setMeditation(affectiveValue); break;
 		case "Engagement Boredom": faceAffectiveData.setEngagementBoredom(affectiveValue); break;
 		case "Excitement ShortTerm": faceAffectiveData.setExcitementShortTerm(affectiveValue); break;
-		case "Frustation": faceAffectiveData.setFrustation(affectiveValue); break;
+		case "Frustration": faceAffectiveData.setFrustation(affectiveValue); break;
 		case "Excitement LongTerm": faceAffectiveData.setExcitementLongTerm(affectiveValue); break;
 		}
 		
-		System.out.println(faceAffectiveData.toString());
+		faceData.setFaceAffectiveData(faceAffectiveData);
+		faceData.setFaceExpressionData(faceExpressionData);
+		System.out.println(faceData.toString());
+		
+		return faceData;
+		//System.out.println(faceAffectiveData.toString());
+		//System.out.println(faceExpressionData.toString());
 		
 	}
 }
